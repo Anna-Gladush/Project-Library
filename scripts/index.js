@@ -27,19 +27,18 @@ function displayBook(book) {
     } else {
       read = '<button class="btn">Read</button>'
     }
-  card.innerHTML = `<div class="card"><h1>${book.title}</h1> <p>${book.author}</p> <p>${book.year}</p> <p>${book.pages} pages</p> ${read} </div>`;
-  card.classList.add('.card');
+  card.innerHTML = `<div class="card"><h2>${book.title}</h2> <p>${book.author}</p> <p>${book.year}</p> <p>${book.pages} pages</p> <div class="action">${read}<button class="remove">Remove</button></div></div>`;
   div.appendChild(card);
 }
 
-function readTheBook(book) {
+function readTheBook() {
   const btn = document.querySelectorAll('.btn');
   btn.forEach((button) => {
-    button.addEventListener('click', () => { if (button.innerText == 'Read') {
-      button.innerText = 'Unread';
+    button.addEventListener('click', () => { if (button.textContent == 'Read') {
+      button.textContent = 'Unread';
       button.classList.add('read')
     } else {
-      button.innerText = 'Read';
+      button.textContent = 'Read';
       button.classList.remove('read')
     }
   })
@@ -52,23 +51,34 @@ function displayAddNewBook() {
   let author = document.getElementById('author');
   let year = document.getElementById('year');
   let pages = document.getElementById('pages');
-
   btn.addEventListener('click', () => {
-    let read = document.getElementById('read').checked === true ? "Read" : "Unread";
-    addBookToLibrary(title.value, author.value, year.value, pages.value, read);
+    let read = document.getElementById('read');
+    check = read.checked === true ? "Read" : "Unread";
+    addBookToLibrary(title.value, author.value, year.value, pages.value, check);
     displayLibrary();
+    title.value = '';
+    author.value = '';
+    year.value = '';
+    pages.value = '';
+    read.checked = false
   });
 }
+
 function displayLibrary() {
   div.innerHTML = '';
   myLibrary.forEach((book) => {
     displayBook(book);
-    readTheBook(book);
   })
+  readTheBook();
+}
+
+function library(){
+  displayAddNewBook();
+  displayLibrary();
 }
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, 'Read');
-addBookToLibrary("The Lord of the Rings", "J.R.R. Tolkien", 1954, 1500);
+addBookToLibrary("The Lord of the Rings", "J.R.R. Tolkien", 1954, 1500, 'Unread');
 addBookToLibrary("Pride and Prejudice", "Jane Austen", 1813, 328);
+addBookToLibrary("The Picture of Dorian Gray", "Oscar Wilde", 1890, 230);
 
-displayAddNewBook();
-displayLibrary();
+library()
