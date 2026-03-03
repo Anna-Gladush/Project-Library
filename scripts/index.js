@@ -22,12 +22,13 @@ function addBookToLibrary(title, author, year, pages, read) {
 function displayBook(book) {
   const card = document.createElement('div');
   let read;
+  let id = book.id
   if (book.read == "Read") {
       read = '<button class="btn read">Unread</button>'
     } else {
       read = '<button class="btn">Read</button>'
     }
-  card.innerHTML = `<div class="card"><h2>${book.title}</h2> <p>${book.author}</p> <p>${book.year}</p> <p>${book.pages} pages</p> <div class="action">${read}<button class="remove">Remove</button></div></div>`;
+  card.innerHTML = `<div class="card" data-index-number="${id}"><h2>${book.title}</h2> <p>${book.author}</p> <p>${book.year}</p> <p>${book.pages} pages</p> <div class="action" data-index-number="${id}">${read}<button class="remove" data-index-number="${id}">Remove</button></div></div>`;
   div.appendChild(card);
 }
 
@@ -36,15 +37,21 @@ function readTheBook() {
   btn.forEach((button) => {
     button.addEventListener('click', () => { if (button.textContent == 'Read') {
       button.textContent = 'Unread';
-      button.classList.add('read')
+      button.classList.add('read');
+      
+      // myLibrary.forEach(obj => {if (obj[id]) {}})
     } else {
       button.textContent = 'Read';
       button.classList.remove('read')
     }
+    alert(document.button.hasAttribute('data-index-number'))
   })
   });
 }
+// function toggleRead() {
+//   const card = document.querySelectorAll('.card');
 
+// }
 function displayAddNewBook() {
   const btn = document.querySelector('.submit');
   let title = document.getElementById('title');
@@ -60,7 +67,7 @@ function displayAddNewBook() {
     author.value = '';
     year.value = '';
     pages.value = '';
-    read.checked = false
+    read.checked = false;
   });
 }
 
@@ -72,9 +79,22 @@ function displayLibrary() {
   readTheBook();
 }
 
+function deleteBook() {
+  const btn = document.querySelectorAll('.remove');
+  myLibrary.forEach((book) => {
+    btn.forEach((button) => {
+    button.addEventListener('click', () => {
+      myLibrary = myLibrary.filter(obj => obj[id] !== book.id)
+    });
+  });
+  })
+  displayLibrary();
+}
+
 function library(){
   displayAddNewBook();
   displayLibrary();
+  deleteBook();
 }
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, 'Read');
 addBookToLibrary("The Lord of the Rings", "J.R.R. Tolkien", 1954, 1500, 'Unread');
