@@ -24,34 +24,37 @@ function displayBook(book) {
   let read;
   let id = book.id
   if (book.read == "Read") {
-      read = '<button class="btn read">Unread</button>'
+      read = `<button class="btn read" data-id="${id}">Unread</button>`
     } else {
-      read = '<button class="btn">Read</button>'
+      read = `<button class="btn" data-id="${id}">Read</button>`
     }
-  card.innerHTML = `<div class="card" data-index-number="${id}"><h2>${book.title}</h2> <p>${book.author}</p> <p>${book.year}</p> <p>${book.pages} pages</p> <div class="action" data-index-number="${id}">${read}<button class="remove" data-index-number="${id}">Remove</button></div></div>`;
+  card.innerHTML = `<div class="card" data-idr="${id}"><h2>${book.title}</h2> <p>${book.author}</p> <p>${book.year}</p> <p>${book.pages} pages</p> <div class="action">${read}<button class="remove" data-id="${id}">Remove</button></div></div>`;
   div.appendChild(card);
 }
-
+Book.prototype.toggleRead =function () {
+  this.read = this.read === 'Read' ? 'Unread' : "Read";
+}
 function readTheBook() {
   const btn = document.querySelectorAll('.btn');
   btn.forEach((button) => {
-    button.addEventListener('click', () => { if (button.textContent == 'Read') {
+    button.addEventListener('click', () => { 
+      const bookID =  button.dataset.id;
+      const elBook = myLibrary.find(book => book.id === bookID);
+      if (elBook) {
+        elBook.toggleRead();
+        displayLibrary();
+      }
+      if (button.textContent == 'Read') {
       button.textContent = 'Unread';
       button.classList.add('read');
-      
-      // myLibrary.forEach(obj => {if (obj[id]) {}})
     } else {
       button.textContent = 'Read';
-      button.classList.remove('read')
+      button.classList.remove('read');
     }
-    alert(document.button.hasAttribute('data-index-number'))
+
   })
   });
 }
-// function toggleRead() {
-//   const card = document.querySelectorAll('.card');
-
-// }
 function displayAddNewBook() {
   const btn = document.querySelector('.submit');
   let title = document.getElementById('title');
@@ -81,14 +84,17 @@ function displayLibrary() {
 
 function deleteBook() {
   const btn = document.querySelectorAll('.remove');
-  myLibrary.forEach((book) => {
-    btn.forEach((button) => {
-    button.addEventListener('click', () => {
-      myLibrary = myLibrary.filter(obj => obj[id] !== book.id)
-    });
+  btn.forEach((button) => {
+  button.addEventListener('click', () => {
+    const bookID =  button.dataset.id;
+    console.log(bookID);
+    const idx = myLibrary.findIndex(book => book.id === bookID);
+    if (idx !== -1) {
+      myLibrary.splice(idx, 1);
+      displayLibrary();
+    }
   });
-  })
-  displayLibrary();
+  });
 }
 
 function library(){

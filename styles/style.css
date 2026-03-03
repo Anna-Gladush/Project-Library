@@ -6,6 +6,7 @@ body {
   background-color: #FCF9EA;
   display: grid;
   grid-template-columns: 0.5fr 0.7fr;
+  justify-content: space-around;
 }
 .add-book {
   display: grid;
