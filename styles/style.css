@@ -12,6 +12,7 @@ body {
   grid-template-columns: 10vw 5vw;
   align-items: center;
   margin: 20px;
+  height: 15em;
 }
 input[type='text'],
 input[type='number'] {
@@ -30,7 +31,6 @@ input[type="checkbox"] {
   border-radius: 10px;
   margin-left: 25vh;
   box-shadow: 1px 1px 2px 2px #447254;
-
 }
 .container {
   display: grid;
