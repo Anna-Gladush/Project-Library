@@ -4,8 +4,8 @@
 }
 body {
   background-color: #FCF9EA;
-  display: grid;
-  grid-template-columns: 0.5fr 0.7fr;
+  display: flex;
+  flex-direction: column;
   justify-content: space-around;
 }
 .add-book {
