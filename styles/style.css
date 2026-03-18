@@ -24,7 +24,7 @@ input[type='number'] {
   font-size: 16px;
   font-family: 'Courier New', Courier, monospace;
   padding-left: 10px;
-  border-radius: 10px;
+  border-radius: 7px;
 }
 input[type="checkbox"] {
   width: 20px;
