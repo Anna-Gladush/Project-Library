@@ -1,19 +1,28 @@
 const div = document.querySelector('.container')
 const myLibrary = [];
 
-function Book(title, author, year, pages, read = 'Unread') {
-    if (!new.target) {
-        throw Error("You must use the 'new' operator to call the constructor");
-    };
+// function Book(title, author, year, pages, read = 'Unread') {
+//     if (!new.target) {
+//         throw Error("You must use the 'new' operator to call the constructor");
+//     };
+//     this.title = title;
+//     this.author = author;
+//     this.year = year;
+//     this.id = crypto.randomUUID();
+//     this.pages = pages;
+//     this.read = read;
+// }
+
+class Book {
+  constructor(title, author, year, pages, read = 'Unread') {
     this.title = title;
     this.author = author;
     this.year = year;
     this.id = crypto.randomUUID();
     this.pages = pages;
     this.read = read;
+  }
 }
-
-
 function addBookToLibrary(title, author, year, pages, read) {
   const newBook = new Book(title, author, year, pages, read);
   myLibrary.push(newBook)
