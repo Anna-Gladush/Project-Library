@@ -16,7 +16,35 @@ Book.prototype.toggleRead = function () {
   this.read = this.read === 'Read' ? 'Unread' : "Read";
 }
 
+const pages = document.getElementById('pages');
+const title = document.getElementById('title');
+const author = document.getElementById('author');
+const year = document.getElementById('year');
+const read = document.getElementById('read');
+
 const Library = (() => {
+
+  const checkPages = () => {
+    // pages = Number(pages);
+    pages_count = pages.value;
+    if (pages_count < 1) {
+      pages.setCustomValidity("Number of pages should be positive and more than 0");
+      pages.reportValidity();
+      return;
+    }
+    pages.setCustomValidity("");
+  }
+
+  const checkYear = () => {
+
+  }
+  const checkAuthor = (author) => {
+
+  }
+  const checkTitle = (title) => {
+
+  }
+
   const addBookToLibrary = (title, author, year, pages, read) => {
     const newBook = new Book(title, author, year, pages, read);
     myLibrary.push(newBook)
@@ -58,21 +86,21 @@ const Library = (() => {
 
   const displayAddNewBook = () => {
     const btn = document.querySelector('.submit');
-    let title = document.getElementById('title');
-    let author = document.getElementById('author');
-    let year = document.getElementById('year');
-    let pages = document.getElementById('pages');
     btn.addEventListener('click', () => {
-      let read = document.getElementById('read');
-      check = read.checked === true ? "Read" : "Unread";
+      const check = read.checked === true ? "Read" : "Unread";
+      pages.addEventListener("change",  checkPages(pages));
       addBookToLibrary(title.value, author.value, year.value, pages.value, check);
       displayLibrary();
-      title.value = '';
-      author.value = '';
-      year.value = '';
-      pages.value = '';
-      read.checked = false;
+      clearForm(title, author, year, pages, read);
     });
+  }
+
+  const clearForm = (title, author, year, pages, read) => {
+    title.value = '';
+    author.value = '';
+    year.value = '';
+    pages.value = '';
+    read.checked = false;
   }
 
   const displayLibrary = () => {
@@ -102,10 +130,13 @@ const Library = (() => {
     displayAddNewBook();
     displayLibrary();
     deleteBook();
+    pages.addEventListener("change", checkPages)
+
   }
 
   return {
     addBookToLibrary,
+    displayLibrary,
     library
   }
 })();
@@ -116,3 +147,4 @@ Library.addBookToLibrary("Pride and Prejudice", "Jane Austen", 1813, 328);
 Library.addBookToLibrary("The Picture of Dorian Gray", "Oscar Wilde", 1890, 230);
 
 Library.library();
+// page.addEventListener("change", Library.));
