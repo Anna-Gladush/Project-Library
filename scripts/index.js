@@ -25,7 +25,7 @@ const read = document.getElementById('read');
 const Library = (() => {
 
   const checkPages = () => {
-    // pages = Number(pages);
+    // pages = Number(pages)
     pages_count = pages.value;
     if (pages_count < 1) {
       pages.setCustomValidity("Number of pages should be positive and more than 0");
@@ -35,9 +35,6 @@ const Library = (() => {
     pages.setCustomValidity("");
   }
 
-  const checkYear = () => {
-
-  }
   const checkAuthor = (author) => {
 
   }
