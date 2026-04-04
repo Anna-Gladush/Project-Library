@@ -1,5 +1,35 @@
-const div = document.querySelector('.container')
-const myLibrary = [];
+const LibraryJSON = (() => {
+  const saveLibrary = () => {
+    const userLibrary = {
+    library: myLibrary
+    }
+    const json = JSON.stringify(userLibrary);
+    localStorage.setItem("userLibrary", json)
+  }
+
+  const loadLibrary = () => {
+    const json = localStorage.getItem("userLibrary");
+    if (!json) {
+      return null;
+    }
+    try {
+      const lib = JSON.parse(json)
+      return lib.library;
+    } catch (err) {
+      console.error("Failed to parse profile JSON:", err);
+      return null;
+    }
+  }
+
+  const clearLibrary = () => {
+    localStorage.removeItem("userLibrary");
+  }
+  return {
+    saveLibrary,
+    loadLibrary,
+    clearLibrary
+  }
+})()
 
 class Book {
   constructor(title, author, year, pages, read = 'Unread') {
@@ -18,6 +48,7 @@ Book.prototype.toggleRead = function () {
 
 const Library = (() => {
   // const DOM variables
+  const div = document.querySelector('.container')
   const pages = document.getElementById('pages');
   const title = document.getElementById('title');
   const author = document.getElementById('author');
@@ -74,6 +105,7 @@ const Library = (() => {
       }
     card.innerHTML = `<div class="card" data-idr="${id}"><h2>${book.title}</h2> <p>${book.author}</p> <p>${book.year}</p> <p>${book.pages} pages</p> <div class="action">${read}<button class="remove" data-id="${id}">Remove</button></div></div>`;
     div.appendChild(card);
+    deleteBook()
   }  
 
   const readTheBook = () => {
@@ -106,6 +138,8 @@ const Library = (() => {
         addBookToLibrary(title.value, author.value, year.value, pages.value, check);
         displayLibrary();
         clearForm(title, author, year, pages, read);
+        LibraryJSON.clearLibrary();
+        LibraryJSON.saveLibrary();
       }
     })
   }
@@ -131,14 +165,11 @@ const Library = (() => {
     btn.forEach((button) => {
     button.addEventListener('click', () => {
       const bookID =  button.dataset.id;
-      console.log(bookID);
-      const idx = myLibrary.findIndex(book => book.id === bookID);
-      if (idx !== -1) {
-        myLibrary.splice(idx, 1);
-        displayLibrary();
-      }
-    });
-    });
+      myLibrary = myLibrary.filter(book => book.id !== bookID)
+      LibraryJSON.clearLibrary();
+      LibraryJSON.saveLibrary();
+      displayLibrary();
+    })});
   }
 
   const library = ()=>{
@@ -154,9 +185,6 @@ const Library = (() => {
   }
 })();
 
-Library.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, 'Read');
-Library.addBookToLibrary("The Lord of the Rings", "J.R.R. Tolkien", 1954, 1500, 'Unread');
-Library.addBookToLibrary("Pride and Prejudice", "Jane Austen", 1813, 328);
-Library.addBookToLibrary("The Picture of Dorian Gray", "Oscar Wilde", 1890, 230);
+let myLibrary = LibraryJSON.loadLibrary() || [new Book("The Hobbit", "J.R.R. Tolkien", 1937, 310, 'Read'), new Book("The Lord of the Rings", "J.R.R. Tolkien", 1954, 1500, 'Unread'), new Book("Pride and Prejudice", "Jane Austen", 1813, 328), new Book("The Picture of Dorian Gray", "Oscar Wilde", 1890, 230)];
 
 Library.library();
