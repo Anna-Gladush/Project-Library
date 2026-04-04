@@ -16,32 +16,44 @@ Book.prototype.toggleRead = function () {
   this.read = this.read === 'Read' ? 'Unread' : "Read";
 }
 
-const pages = document.getElementById('pages');
-const title = document.getElementById('title');
-const author = document.getElementById('author');
-const year = document.getElementById('year');
-const read = document.getElementById('read');
-
 const Library = (() => {
+  // const DOM variables
+  const pages = document.getElementById('pages');
+  const title = document.getElementById('title');
+  const author = document.getElementById('author');
+  const year = document.getElementById('year');
+  const read = document.getElementById('read');
 
   const checkPages = () => {
-    // pages = Number(pages)
-    pages_count = pages.value;
+    const pages_count = pages.value;
     if (pages_count < 1) {
       pages.setCustomValidity("Number of pages should be positive and more than 0");
-      pages.reportValidity();
-      return;
+      return pages.reportValidity();
     }
     pages.setCustomValidity("");
+    return pages.reportValidity();
   }
 
-  const checkAuthor = (author) => {
-
+  const checkAuthor = () => {
+    const author_name = author.value;
+    if (author_name == '') {
+      author.setCustomValidity("The author name must be filled!");
+      return author.reportValidity();
+    }
+    author.setCustomValidity("");
+    return pages.reportValidity();
   }
-  const checkTitle = (title) => {
 
+  const checkTitle = () => {
+    const title_name = title.value;
+    if (title_name == '') {
+      title.setCustomValidity("The title's name must be filled!");
+      return title.reportValidity();
+    }
+    title.setCustomValidity("");
+    return pages.reportValidity();
   }
-
+  
   const addBookToLibrary = (title, author, year, pages, read) => {
     const newBook = new Book(title, author, year, pages, read);
     myLibrary.push(newBook)
@@ -83,13 +95,15 @@ const Library = (() => {
 
   const displayAddNewBook = () => {
     const btn = document.querySelector('.submit');
+
     btn.addEventListener('click', () => {
       const check = read.checked === true ? "Read" : "Unread";
-      pages.addEventListener("change",  checkPages(pages));
-      addBookToLibrary(title.value, author.value, year.value, pages.value, check);
-      displayLibrary();
-      clearForm(title, author, year, pages, read);
-    });
+      if (checkPages() && checkTitle() && checkAuthor()) {
+        addBookToLibrary(title.value, author.value, year.value, pages.value, check);
+        displayLibrary();
+        clearForm(title, author, year, pages, read);
+      }
+    })
   }
 
   const clearForm = (title, author, year, pages, read) => {
@@ -127,8 +141,6 @@ const Library = (() => {
     displayAddNewBook();
     displayLibrary();
     deleteBook();
-    pages.addEventListener("change", checkPages)
-
   }
 
   return {
