@@ -156,4 +156,3 @@ Library.addBookToLibrary("Pride and Prejudice", "Jane Austen", 1813, 328);
 Library.addBookToLibrary("The Picture of Dorian Gray", "Oscar Wilde", 1890, 230);
 
 Library.library();
-// page.addEventListener("change", Library.));
