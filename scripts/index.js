@@ -25,18 +25,23 @@ const Library = (() => {
   const read = document.getElementById('read');
 
   const checkPages = () => {
-    const pages_count = pages.value;
-    if (pages_count < 1) {
-      pages.setCustomValidity("Number of pages should be positive and more than 0");
+    if (pages.value < 1) {
+      pages.setCustomValidity("Number of pages should be positive and more than 0!");
       return pages.reportValidity();
     }
     pages.setCustomValidity("");
     return pages.reportValidity();
   }
-
+    const checkYear = () => {
+    if (year.value == '') {
+      year.setCustomValidity("The year must be filled! ");
+      return year.reportValidity();
+    }
+    year.setCustomValidity("");
+    return year.reportValidity();
+  }
   const checkAuthor = () => {
-    const author_name = author.value;
-    if (author_name == '') {
+    if (author.value == '') {
       author.setCustomValidity("The author name must be filled!");
       return author.reportValidity();
     }
@@ -45,8 +50,7 @@ const Library = (() => {
   }
 
   const checkTitle = () => {
-    const title_name = title.value;
-    if (title_name == '') {
+    if (title.value == '') {
       title.setCustomValidity("The title's name must be filled!");
       return title.reportValidity();
     }
@@ -98,7 +102,7 @@ const Library = (() => {
 
     btn.addEventListener('click', () => {
       const check = read.checked === true ? "Read" : "Unread";
-      if (checkPages() && checkTitle() && checkAuthor()) {
+      if (checkPages() && checkYear() && checkTitle() && checkAuthor()) {
         addBookToLibrary(title.value, author.value, year.value, pages.value, check);
         displayLibrary();
         clearForm(title, author, year, pages, read);
