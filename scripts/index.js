@@ -14,7 +14,9 @@ const LibraryJSON = (() => {
     }
     try {
       const lib = JSON.parse(json)
-      return lib.library;
+      const librarium = []
+      lib.library.forEach(book => librarium.push(new Book(book.title, book.author, book.year, book.pages, book.read)))
+      return librarium;
     } catch (err) {
       console.error("Failed to parse profile JSON:", err);
       return null;
@@ -114,10 +116,12 @@ const Library = (() => {
       button.addEventListener('click', () => { 
         const bookID =  button.dataset.id;
         const elBook = myLibrary.find(book => book.id === bookID);
-        if (elBook) {
-          elBook.toggleRead();
-          displayLibrary();
-        }
+        elBook.toggleRead();
+        displayLibrary();
+    
+        LibraryJSON.clearLibrary();
+        LibraryJSON.saveLibrary();
+        
         if (button.textContent == 'Read') {
         button.textContent = 'Unread';
         button.classList.add('read');

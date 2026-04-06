@@ -3,7 +3,7 @@
   padding: 0;
 }
 body {
-  background-color: #FCF9EA;
+  background-color: #f3fcea;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -35,24 +35,27 @@ input[type="checkbox"] {
   font-size: 15px;
   padding: 10px 20px;
   border-radius: 10px;
-  margin-left: 25vh;
-  box-shadow: 1px 1px 2px 2px #447254;
+  margin-left: 30vw;
+  box-shadow: 1px 1px 2px 2px #7b9b86;
 }
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 250px);
+  grid-template-columns: repeat(auto-fill, 350px);
 }
 .card {
   display: grid;
   margin: 0.75em;
   padding: 10px;
-  height: 180px;
-  grid-template-rows: 70px 30px 30px 30px;
+  height: 250px;
+  grid-template-rows: 70px 30px 30px 80px;
   background-color: #e6e9d0;
   text-align: center;
   border-radius: 30px;
   word-wrap:break-word;
-  box-shadow: 3px 3px 5px 3px #447254;
+  box-shadow: 3px 3px 5px 3px #7b9b86;
+}
+.card:first-child {
+  padding: 20px;
 }
 .card p:nth-child(2) {
   font-style: italic;
