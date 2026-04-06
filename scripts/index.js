@@ -77,7 +77,7 @@ const Library = (() => {
       return author.reportValidity();
     }
     author.setCustomValidity("");
-    return pages.reportValidity();
+    return author.reportValidity();
   }
 
   const checkTitle = () => {
@@ -86,7 +86,7 @@ const Library = (() => {
       return title.reportValidity();
     }
     title.setCustomValidity("");
-    return pages.reportValidity();
+    return title.reportValidity();
   }
   
   const addBookToLibrary = (title, author, year, pages, read) => {
